@@ -1,5 +1,6 @@
 #include <wayland-egl-core.h>
 #define _POSIX_C_SOURCE 200112L
+#define _BSD_SOURCE
 #include <stdio.h>
 #include <stdint.h>
 #include <signal.h>
@@ -82,7 +83,22 @@ int main(int argc, char* argv[]) {
     init_gl(fragment_shader);
 
     bool running = true;
+    double last_frame_time = 0.0; 
+
     while (running) {
+
+        double current_time = glshell_get_time();
+        if (last_frame_time > 0 && args.fps_limit > 0) {
+            double elapsed = current_time - last_frame_time;
+            double target_frame_duration = 1.0 / args.fps_limit;
+
+            if (elapsed < target_frame_duration) {
+                // Sleep for the remaining time to achieve target FPS
+                usleep((target_frame_duration - elapsed) * 1e6);
+            }
+        }
+        last_frame_time = current_time;
+        
         running = glshell_poll_events();
 
         draw_frame();

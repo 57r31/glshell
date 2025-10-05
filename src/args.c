@@ -55,6 +55,7 @@ args_t args_parse(int argc, char* argv[]) {
         .reserve = true,
         .layer = ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
         .output_name = NULL,
+        .fps_limit = 0
     };
 
     if (argc < 2) {
@@ -125,6 +126,13 @@ args_t args_parse(int argc, char* argv[]) {
                 args.anchor =
                     ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM | ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT;
             } else {
+                usage(argv);
+                exit(1);
+            }
+        } else if (strcmp(argv[i], "-f") == 0 || strcmp(argv[i], "--fps") == 0) {
+            args.fps_limit = atoi(argv[++i]);
+            if (args.fps_limit <= 0) {
+                printf("FPS limit must be positive\n");
                 usage(argv);
                 exit(1);
             }

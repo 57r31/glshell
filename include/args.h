@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #pragma once
 
 #include <stdbool.h>
@@ -20,3 +21,27 @@ typedef struct args {
 
 args_t args_parse(int argc, char* argv[]);
 
+=======
+#pragma once
+
+#include <stdbool.h>
+#include <wlr-layer-shell-unstable-v1-client-protocol.h>
+
+typedef struct args {
+    // glshell_params_t
+    int width;
+    int height;
+    int margin;
+    enum zwlr_layer_surface_v1_anchor anchor;
+    bool reserve;
+    enum zwlr_layer_shell_v1_layer layer;
+    char* output_name;
+
+    // specific to this example
+    char* fragment_shader;
+    int fps_limit;  // New field for FPS limit
+} args_t;
+
+args_t args_parse(int argc, char* argv[]);
+
+>>>>>>> 9675f1ba0c424876f50864a65d7b96dd2f506681

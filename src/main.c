@@ -1,6 +1,7 @@
 ```python src/main.c
 #include <wayland-egl-core.h>
 #define _POSIX_C_SOURCE 200112L
+#define _BSD_SOURCE
 #include <stdio.h>
 #include <stdint.h>
 #include <signal.h>

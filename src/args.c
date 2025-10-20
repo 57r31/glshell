@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include "args.h"
 
 #include <stdio.h>
@@ -290,4 +289,3 @@ args_t args_parse(int argc, char* argv[]) {
     }
     return args;
 }
->>>>>>> 9675f1ba0c424876f50864a65d7b96dd2f506681

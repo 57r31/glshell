@@ -1,4 +1,3 @@
-```python src/main.c
 #include <wayland-egl-core.h>
 #define _POSIX_C_SOURCE 200112L
 #define _BSD_SOURCE

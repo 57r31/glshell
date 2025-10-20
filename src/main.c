@@ -1,3 +1,4 @@
+```python src/main.c
 #include <wayland-egl-core.h>
 #define _POSIX_C_SOURCE 200112L
 #include <stdio.h>
@@ -82,12 +83,43 @@ int main(int argc, char* argv[]) {
     init_gl(fragment_shader);
 
     bool running = true;
+    double last_frame_time = 0.0; 
+    double frame_times[100]; // Buffer to store frame times for FPS calculation
+    int frame_count = 0;
+    double last_fps_log_time = 0.0;
+
     while (running) {
+        double current_time = glshell_get_time();
+        if (last_frame_time > 0 && args.fps_limit > 0) {
+            double elapsed = current_time - last_frame_time;
+            double target_frame_duration = 1.0 / args.fps_limit;
+
+            if (elapsed < target_frame_duration) {
+                // Sleep for the remaining time to achieve target FPS
+                usleep((target_frame_duration - elapsed) * 1e6);
+            }
+        }
+        last_frame_time = current_time;
+        
         running = glshell_poll_events();
 
         draw_frame();
 
         glshell_swap_buffers();
+        
+        // Calculate and log average FPS every 5 seconds
+        if (frame_count >= 100 || last_fps_log_time == 0.0) {
+            double avg_fps = 0.0;
+            if (frame_count > 0) {
+                double total_time = current_time - last_fps_log_time;
+                avg_fps = frame_count / total_time;
+            }
+            printf("[glshell] average FPS (5s): %.2f\n", avg_fps);
+            frame_count = 0;
+            last_fps_log_time = current_time;
+        } else {
+            frame_count++;
+        }
     }
 
     glshell_cleanup();

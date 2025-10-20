@@ -15,6 +15,8 @@ typedef struct args {
 
     // specific to this example
     char* fragment_shader;
+    int fps_limit;  // New field for FPS limit
 } args_t;
 
 args_t args_parse(int argc, char* argv[]);
+
